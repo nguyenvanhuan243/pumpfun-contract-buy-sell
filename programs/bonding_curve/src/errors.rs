@@ -41,8 +41,8 @@ pub enum CustomError {
     #[msg("Token amount is too big to sell")]
     TokenAmountToSellTooBig,
 
-    #[msg("SOL is not enough in vault")]
-    NotEnoughSolInVault,
+    #[msg("EXCHANGE TOKEN is not enough in vault")]
+    NotEnoughExchangeTokenInVault,
 
     #[msg("Token is not enough in vault")]
     NotEnoughTokenInVault,
