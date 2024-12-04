@@ -77,7 +77,7 @@ pub trait LiquidityPoolAccount<'info> {
             &mut Account<'info, TokenAccount>,
             &mut Account<'info, TokenAccount>,
         ),
-        pool_sol_vault: &mut AccountInfo<'info>,
+        pool_token_exchange_vault: &mut AccountInfo<'info>,
         authority: &Signer<'info>,
         token_program: &Program<'info, Token>,
         system_program: &Program<'info, System>,
@@ -106,7 +106,7 @@ pub trait LiquidityPoolAccount<'info> {
             &mut Account<'info, TokenAccount>,
             &mut Account<'info, TokenAccount>,
         ),
-        pool_sol_vault: &mut AccountInfo<'info>,
+        pool_token_exchange_vault: &mut AccountInfo<'info>,
         amount: u64,
         authority: &Signer<'info>,
         token_program: &Program<'info, Token>,
@@ -121,7 +121,7 @@ pub trait LiquidityPoolAccount<'info> {
             &mut Account<'info, TokenAccount>,
             &mut Account<'info, TokenAccount>,
         ),
-        pool_sol_vault: &mut AccountInfo<'info>,
+        pool_token_exchange_vault: &mut AccountInfo<'info>,
         amount: u64,
         bump: u8,
         authority: &Signer<'info>,
@@ -178,7 +178,7 @@ impl<'info> LiquidityPoolAccount<'info> for Account<'info, LiquidityPool> {
             &mut Account<'info, TokenAccount>,
             &mut Account<'info, TokenAccount>,
         ),
-        pool_sol_vault: &mut AccountInfo<'info>,
+        pool_token_exchange_vault: &mut AccountInfo<'info>,
         authority: &Signer<'info>,
         token_program: &Program<'info, Token>,
         system_program: &Program<'info, System>,
@@ -193,7 +193,7 @@ impl<'info> LiquidityPoolAccount<'info> for Account<'info, LiquidityPool> {
 
         self.transfer_sol_to_pool(
             authority,
-            pool_sol_vault,
+            pool_token_exchange_vault,
             INITIAL_LAMPORTS_FOR_POOL,
             system_program,
         )?;
@@ -210,7 +210,7 @@ impl<'info> LiquidityPoolAccount<'info> for Account<'info, LiquidityPool> {
             &mut Account<'info, TokenAccount>,
             &mut Account<'info, TokenAccount>,
         ),
-        pool_sol_vault: &mut AccountInfo<'info>,
+        pool_token_exchange_vault: &mut AccountInfo<'info>,
         authority: &Signer<'info>,
         bump: u8,
         token_program: &Program<'info, Token>,
@@ -223,8 +223,8 @@ impl<'info> LiquidityPoolAccount<'info> for Account<'info, LiquidityPool> {
             token_program,
         )?;
         // let amount = self.to_account_info().lamports() - self.get_lamports();
-        let amount = pool_sol_vault.to_account_info().lamports() as u64;
-        self.transfer_sol_from_pool(pool_sol_vault, authority, amount, bump, system_program)?;
+        let amount = pool_token_exchange_vault.to_account_info().lamports() as u64;
+        self.transfer_sol_from_pool(pool_token_exchange_vault, authority, amount, bump, system_program)?;
 
         Ok(())
     }
@@ -253,7 +253,7 @@ impl<'info> LiquidityPoolAccount<'info> for Account<'info, LiquidityPool> {
             &mut Account<'info, TokenAccount>,
             &mut Account<'info, TokenAccount>,
         ),
-        pool_sol_vault: &mut AccountInfo<'info>,
+        pool_token_exchange_vault: &mut AccountInfo<'info>,
         amount: u64,
         authority: &Signer<'info>,
         token_program: &Program<'info, Token>,
@@ -287,7 +287,7 @@ impl<'info> LiquidityPoolAccount<'info> for Account<'info, LiquidityPool> {
         self.reserve_sol += amount;
         self.reserve_token -= amount_out;
 
-        self.transfer_sol_to_pool(authority, pool_sol_vault, amount, system_program)?;
+        self.transfer_sol_to_pool(authority, pool_token_exchange_vault, amount, system_program)?;
 
         self.transfer_token_from_pool(
             token_accounts.1,
@@ -305,7 +305,7 @@ impl<'info> LiquidityPoolAccount<'info> for Account<'info, LiquidityPool> {
             &mut Account<'info, TokenAccount>,
             &mut Account<'info, TokenAccount>,
         ),
-        pool_sol_vault: &mut AccountInfo<'info>,
+        pool_token_exchange_vault: &mut AccountInfo<'info>,
         amount: u64,
         bump: u8,
         authority: &Signer<'info>,
@@ -352,7 +352,7 @@ impl<'info> LiquidityPoolAccount<'info> for Account<'info, LiquidityPool> {
         self.reserve_token += amount;
         self.reserve_sol -= amount_out;
 
-        self.transfer_sol_from_pool(pool_sol_vault, authority, amount_out, bump, system_program)?;
+        self.transfer_sol_from_pool(pool_token_exchange_vault, authority, amount_out, bump, system_program)?;
 
         Ok(())
     }
