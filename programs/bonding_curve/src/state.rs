@@ -146,7 +146,7 @@ pub trait LiquidityPoolAccount<'info> {
         token_program: &Program<'info, Token>,
     ) -> Result<()>;
 
-    fn transfer_sol_to_pool(
+    fn transfer_exchange_token_to_pool(
         &self,
         from: &Signer<'info>,
         to: &mut AccountInfo<'info>,
@@ -154,7 +154,7 @@ pub trait LiquidityPoolAccount<'info> {
         system_program: &Program<'info, System>,
     ) -> Result<()>;
 
-    fn transfer_sol_from_pool(
+    fn transfer_exchange_token_from_pool(
         &self,
         from: &mut AccountInfo<'info>,
         to: &Signer<'info>,
@@ -405,7 +405,7 @@ impl<'info> LiquidityPoolAccount<'info> for Account<'info, LiquidityPool> {
         Ok(())
     }
 
-    fn transfer_sol_from_pool(
+    fn transfer_exchange_token_from_pool(
         &self,
         from: &mut AccountInfo<'info>,
         to: &Signer<'info>,
@@ -435,7 +435,7 @@ impl<'info> LiquidityPoolAccount<'info> for Account<'info, LiquidityPool> {
         Ok(())
     }
 
-    fn transfer_sol_to_pool(
+    fn transfer_exchange_token_to_pool(
         &self,
         from: &Signer<'info>,
         to: &mut AccountInfo<'info>,
